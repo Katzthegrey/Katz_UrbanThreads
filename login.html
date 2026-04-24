@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Threads - Login & Sign Up</title>
+    <!--=============== FAVICON ===============-->
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+
+    <!--=============== REMIXICONS ===============-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+
+    <!--=============== FONT AWESOME ===============-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase Import Map -->
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+                "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js",
+                "firebase/firestore": "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js",
+                "firebase/storage": "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js"
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Header with Navigation -->
+    <section id="header">
+        <a href="Home.html" class="logo">
+            <img src="Clothing Html/Preview-removebg-preview.png" alt="Urban Threads">
+        </a>
+        <div>
+            <ul id="navbar">
+                <li><a href="Home.html">Home</a></li>
+                <li><a href="Shop.html">Shop</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a href="Contact.html">Contact</a></li>
+                <li><a class="active" href="login.html">Login</a></li>
+                <i class="ri-shopping-cart-2-line" id="cart-icon" data-quantity="0"></i>
+                <a href="#" id="close"><i class="ri-close-line"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <i class="ri-shopping-cart-2-line" id="cart-icon-mobile" data-quantity="0"></i>
+            <i id="bar" class="ri-menu-2-line"></i>
+        </div>
+    </section>
+
+    <section id="RegAndSign">
+        <!-- Sign Up Form -->
+        <div class="container" id="signUp" style="display: none;">
+            <h1 class="form-title">Register</h1>
+            <div id="signup-error" class="error-message" style="color: red; text-align: center; margin-bottom: 10px;"></div>
+            <form id="signup-form">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input class="input" type="text" name="username" id="signup-username" placeholder="Username" required>
+                    <label class="label" for="signup-username">Username</label>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input class="input" type="email" name="email" id="signup-email" placeholder="Email" required>
+                    <label class="label" for="signup-email">Email</label>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input class="input" type="password" name="password" id="signup-password" placeholder="Password" required>
+                    <label class="label" for="signup-password">Password</label>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input class="input" type="password" id="confirm-password" placeholder="Confirm Password" required>
+                    <label class="label" for="confirm-password">Confirm Password</label>
+                </div>
+
+                <button type="submit" class="btn">Sign Up</button>
+            </form>
+
+            <p class="or">----------OR-----------</p>
+
+            <div class="links">
+                <p>Already Have An Account?</p>
+                <button type="button" class="button" id="signInButton">Sign In</button>
+            </div>
+        </div>
+
+        <!-- Sign In Form -->
+        <div class="container" id="signIn">
+            <h1 class="form-title">Sign In</h1>
+            <div id="login-error" class="error-message" style="color: red; text-align: center; margin-bottom: 10px;"></div>
+            <form id="login-form">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input class="input" type="email" name="email" id="login-email" placeholder="Email" required>
+                    <label class="label" for="login-email">Email</label>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input class="input" type="password" name="password" id="login-password" placeholder="Password" required>
+                    <label class="label" for="login-password">Password</label>
+                </div>
+
+                <p class="recover">
+                    <a href="#" id="forgot-password">Recover Password</a>
+                </p>
+
+                <button type="submit" class="btn">Sign In</button>
+            </form>
+
+            <p class="or">----------OR-----------</p>
+
+            <div class="links">
+                <p>Don't Have An Account?</p>
+                <button type="button" class="button" id="signUpButton">Sign Up</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="Clothing Html/Preview-removebg-preview.png" alt="">
+            <h4>Contact</h4>
+            <p><strong>Phone</strong> 0670197323</p>
+            <p><strong>Hours</strong> 10:00 - 17:00, Mon - Sat</p>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="About.html">About Us</a>
+            <a href="#">Delivery Information</a>
+            <a href="Contact.html">Contact Us</a>
+        </div>
+        <div class="copyright">
+            <p>© Copyright 2024 Urban Threads Ecommerce System</p>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart">
+        <h2 class="cart-title">Your Cart</h2>
+        <div class="cart-content" id="cart-content">
+            <div class="empty-cart">Your cart is empty</div>
+        </div>
+        <div class="total">
+            <div class="total-title">Total</div>
+            <div class="total-price" id="total-price">R0</div>
+        </div>
+        <button type="button" class="btn-buy" id="checkout-btn">Checkout</button>
+        <i class="ri-close-line" id="close-cart"></i>
+    </div>
+
+    <script type="module">
+        import { auth, db } from './firebase-config.js';
+        import { 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            sendPasswordResetEmail,
+            onAuthStateChanged
+        } from "firebase/auth";
+        import { doc, setDoc } from "firebase/firestore";
+
+        // ========== REDIRECT SETTINGS ==========
+        const REDIRECT_URL = 'Home.html';  
+
+        // ========== TOGGLE BETWEEN LOGIN & SIGNUP ==========
+        const signUpButton = document.getElementById('signUpButton');
+        const signInButton = document.getElementById('signInButton');
+        const signInForm = document.getElementById('signIn');
+        const signUpForm = document.getElementById('signUp');
+
+        if (signUpButton) {
+            signUpButton.addEventListener('click', () => {
+                signInForm.style.display = "none";
+                signUpForm.style.display = "block";
+            });
+        }
+
+        if (signInButton) {
+            signInButton.addEventListener('click', () => {
+                signInForm.style.display = "block";
+                signUpForm.style.display = "none";
+            });
+        }
+
+        // ========== SIGN UP FUNCTION ==========
+        const signupForm = document.getElementById('signup-form');
+        if (signupForm) {
+            signupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const username = document.getElementById('signup-username').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                const errorDiv = document.getElementById('signup-error');
+
+                errorDiv.textContent = '';
+
+                if (password !== confirmPassword) {
+                    errorDiv.textContent = 'Passwords do not match!';
+                    return;
+                }
+
+                if (password.length < 6) {
+                    errorDiv.textContent = 'Password must be at least 6 characters';
+                    return;
+                }
+
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+
+                    // Store user info in Firestore
+                    await setDoc(doc(db, "users", user.uid), {
+                        username: username,
+                        email: email,
+                        createdAt: new Date().toISOString()
+                    });
+
+                    alert('Account created successfully! Redirecting...');
+                    window.location.href = REDIRECT_URL;
+                    
+                } catch (error) {
+                    if (error.code === 'auth/email-already-in-use') {
+                        errorDiv.textContent = 'Email already registered. Please sign in instead.';
+                    } else if (error.code === 'auth/invalid-email') {
+                        errorDiv.textContent = 'Please enter a valid email address.';
+                    } else if (error.code === 'auth/weak-password') {
+                        errorDiv.textContent = 'Password is too weak. Use at least 6 characters.';
+                    } else {
+                        errorDiv.textContent = error.message;
+                    }
+                }
+            });
+        }
+
+        // ========== SIGN IN FUNCTION ==========
+        const loginForm = document.getElementById('login-form');
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                const errorDiv = document.getElementById('login-error');
+
+                errorDiv.textContent = '';
+
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    alert('Login successful! Redirecting...');
+                    window.location.href = REDIRECT_URL;
+                    
+                } catch (error) {
+                    if (error.code === 'auth/invalid-credential') {
+                        errorDiv.textContent = 'Invalid email or password.';
+                    } else if (error.code === 'auth/user-not-found') {
+                        errorDiv.textContent = 'No account found with this email. Please sign up.';
+                    } else if (error.code === 'auth/wrong-password') {
+                        errorDiv.textContent = 'Incorrect password. Please try again.';
+                    } else if (error.code === 'auth/too-many-requests') {
+                        errorDiv.textContent = 'Too many failed attempts. Please try again later.';
+                    } else {
+                        errorDiv.textContent = error.message;
+                    }
+                }
+            });
+        }
+
+        // ========== FORGOT PASSWORD ==========
+        const forgotPasswordLink = document.getElementById('forgot-password');
+        if (forgotPasswordLink) {
+            forgotPasswordLink.addEventListener('click', async (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('login-email').value;
+                const errorDiv = document.getElementById('login-error');
+                
+                if (!email) {
+                    errorDiv.textContent = 'Please enter your email address first.';
+                    return;
+                }
+                
+                try {
+                    await sendPasswordResetEmail(auth, email);
+                    alert('Password reset email sent! Check your inbox.');
+                    errorDiv.textContent = '';
+                } catch (error) {
+                    if (error.code === 'auth/user-not-found') {
+                        errorDiv.textContent = 'No account found with this email.';
+                    } else {
+                        errorDiv.textContent = error.message;
+                    }
+                }
+            });
+        }
+
+        // ========== CHECK IF USER IS ALREADY LOGGED IN ==========
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log('User already logged in:', user.email);
+                // Uncomment to auto-redirect logged-in users away from login page
+                // window.location.href = REDIRECT_URL;
+            }
+        });
+
+        // ========== CART UI ==========
+        function setupCartUI() {
+            const cartIcon = document.getElementById('cart-icon');
+            const cart = document.querySelector('.cart');
+            const closeCart = document.getElementById('close-cart');
+            
+            if (cartIcon && cart) {
+                cartIcon.onclick = () => cart.classList.add('active');
+            }
+            if (closeCart && cart) {
+                closeCart.onclick = () => cart.classList.remove('active');
+            }
+        }
+
+        function setupMobileMenu() {
+            const bar = document.getElementById('bar');
+            const close = document.getElementById('close');
+            const nav = document.getElementById('navbar');
+            
+            if (bar && nav) {
+                bar.addEventListener('click', () => nav.classList.add('active'));
+            }
+            if (close && nav) {
+                close.addEventListener('click', () => nav.classList.remove('active'));
+            }
+        }
+
+        setupCartUI();
+        setupMobileMenu();
+    </script>
+</body>
+</html>

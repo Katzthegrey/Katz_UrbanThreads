@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Urban Threads</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+                "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js",
+                "firebase/firestore": "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js",
+                "firebase/storage": "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js"
+            }
+        }
+    </script>
+</head>
+<body>
+    <section id="header">
+        <a href="Home.html" class="logo">
+            <img src="Clothing Html/Preview-removebg-preview.png" alt="Urban Threads">
+        </a>
+        <div>
+            <ul id="navbar">
+                <li><a href="Home.html">Home</a></li>
+                <li><a href="Shop.html">Shop</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a href="Contact.html">Contact</a></li>
+                <li id="auth-links">
+                    <a href="login.html" id="login-link">Login</a>
+                    <span id="user-email" style="display:none;"></span>
+                    <a href="#" id="logout-link" style="display:none;">Logout</a>
+                </li>
+                <i class="ri-shopping-cart-2-line" id="cart-icon" data-quantity="0"></i>
+                <a href="#" id="close"><i class="ri-close-line"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <i class="ri-shopping-cart-2-line" id="cart-icon-mobile" data-quantity="0"></i>
+            <i id="bar" class="ri-menu-2-line"></i>
+        </div>
+    </section>
+
+    <!-- Product Details Section -->
+    <section id="prodetails" class="section-p1">
+        <div class="loading">Loading product details...</div>
+    </section>
+
+    <!-- Similar Items Section (Same category products) -->
+    <section id="product1" class="section-p1">
+        <h2>You May Also Like</h2>
+        <p>Similar items from the same category</p>
+        <div class="pro-container" id="similar-products-container">
+            <div class="loading">Loading similar items...</div>
+        </div>
+    </section>
+
+    <!-- Match Your Style Section (Products from other categories) -->
+    <section id="product1" class="section-p1">
+        <h2>Match Your Style</h2>
+        <p>Discover styles from other collections</p>
+        <div class="pro-container" id="match-your-style-container">
+            <div class="loading">Loading recommendations...</div>
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="Clothing Html/Preview-removebg-preview.png" alt="">
+            <h4>Contact</h4>
+            <p><strong>Phone</strong> 0670197323</p>
+            <p><strong>Hours</strong> 10:00 - 17:00, Mon - Sat</p>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="About.html">About Us</a>
+            <a href="#">Delivery Information</a>
+            <a href="Contact.html">Contact Us</a>
+        </div>
+        <div class="copyright">
+            <p>© Copyright 2026 Urban Threads Ecommerce System</p>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart">
+        <h2 class="cart-title">Your Cart</h2>
+        <div class="cart-content" id="cart-content">
+            <div class="empty-cart">Your cart is empty</div>
+        </div>
+        <div class="total">
+            <div class="total-title">Total</div>
+            <div class="total-price" id="total-price">R0</div>
+        </div>
+        <button type="button" class="btn-buy" id="checkout-btn">Checkout</button>
+        <i class="ri-close-line" id="close-cart"></i>
+    </div>
+
+    <script type="module">
+        // Correct import path - going into js folder
+        import { loadProductDetails } from './productDetails.js';
+        import { onAuthStateChanged, signOut } from "firebase/auth";
+        import { auth } from './firebase-config.js';
+        
+        // Load product details (this will also load similar items and match your style)
+        loadProductDetails();
+        
+        // Auth handling
+        onAuthStateChanged(auth, (user) => {
+            const loginLink = document.getElementById('login-link');
+            const userEmail = document.getElementById('user-email');
+            const logoutLink = document.getElementById('logout-link');
+            
+            if (user) {
+                if (loginLink) loginLink.style.display = 'none';
+                if (userEmail) {
+                    userEmail.style.display = 'inline';
+                    userEmail.textContent = `Hi, ${user.email.split('@')[0]}`;
+                }
+                if (logoutLink) logoutLink.style.display = 'inline';
+            } else {
+                if (loginLink) loginLink.style.display = 'inline';
+                if (userEmail) userEmail.style.display = 'none';
+                if (logoutLink) logoutLink.style.display = 'none';
+            }
+        });
+        
+        document.getElementById('logout-link')?.addEventListener('click', async (e) => {
+            e.preventDefault();
+            await signOut(auth);
+            window.location.href = 'Home.html';
+        });
+        
+        // Handle add-to-cart events from product details
+        window.addEventListener('add-to-cart', async (e) => {
+            const { product, quantity, selectedSize, selectedColor, colorImage } = e.detail;
+            const module = await import('./js/cart.js');
+            await module.addToCart(product.id, quantity, selectedSize, selectedColor, colorImage);
+        });
+        
+        // Setup cart icon toggle
+        const cartIcon = document.getElementById('cart-icon');
+        const cart = document.querySelector('.cart');
+        const closeCart = document.getElementById('close-cart');
+        
+        if (cartIcon && cart) {
+            cartIcon.onclick = () => cart.classList.add('active');
+        }
+        if (closeCart && cart) {
+            closeCart.onclick = () => cart.classList.remove('active');
+        }
+    </script>
+</body>
+</html>

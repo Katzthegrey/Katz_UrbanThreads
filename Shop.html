@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Threads - Shop</title>
+
+    <!--=============== FAVICON ===============-->
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+
+    <!--=============== REMIXICONS ===============-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Firebase Import Map -->
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+                "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js",
+                "firebase/firestore": "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js",
+                "firebase/storage": "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js"
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <section id="header">
+        <a href="Home.html" class="logo">
+            <img src="Clothing Html/Preview-removebg-preview.png" alt="image">
+        </a>
+
+        <div>
+            <ul id="navbar">
+                <li><a href="Home.html">Home</a></li>
+                <li><a class="active" href="Shop.html">Shop</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a href="Contact.html">Contact</a></li>
+                <li id="auth-links">
+                    <a href="login.html" id="login-link">Login</a>
+                    <span id="user-email" style="display:none;"></span>
+                    <a href="#" id="logout-link" style="display:none;">Logout</a>
+                </li>
+                <i class="ri-shopping-cart-2-line" id="cart-icon" data-quantity="0"></i>
+                <a href="#" id="close"><i class="ri-close-line"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <i class="ri-shopping-cart-2-line" id="cart-icon-mobile" data-quantity="0"></i>
+            <i id="bar" class="ri-menu-2-line"></i>
+        </div>
+    </section>
+
+    <section id="page-header">
+        <h2>#Style On Em</h2>
+        <p>Shop The Latest Streetwear Collection</p>
+    </section>
+
+    <!-- Category Filters -->
+    <section class="section-p1">
+        <div class="category-filters" style="text-align: center; margin-bottom: 30px;">
+            <button class="filter-btn active" data-category="all">All</button>
+            <button class="filter-btn" data-category="Hoodies">Hoodies</button>
+            <button class="filter-btn" data-category="Caps">Caps</button>
+            <button class="filter-btn" data-category="Jeans">Jeans</button>
+            <button class="filter-btn" data-category="Shorts">Shorts</button>
+            <button class="filter-btn" data-category="T-shirts">T-Shirts</button>
+            <button class="filter-btn" data-category="Sneakers">Sneakers</button>
+            <button class="filter-btn" data-category="Accessories">Accessories</button>
+        </div>
+    </section>
+
+    <!-- SEARCH BAR SECTION -->
+    <section class="section-p1" style="padding-top: 0;">
+        <div class="search-container" style="max-width: 600px; margin: 0 auto;">
+            <div class="search-wrapper" style="display: flex; gap: 10px; align-items: center; background: white; border: 2px solid #ddd; border-radius: 50px; padding: 5px 15px; transition: all 0.3s ease;">
+                <i class="ri-search-line" style="font-size: 20px; color: #666;"></i>
+                <input type="text" id="search-input" placeholder="Search for products by name, category, or description..." style="flex: 1; padding: 12px 0; border: none; outline: none; font-size: 16px; background: transparent;">
+                <button id="search-clear" style="background: none; border: none; cursor: pointer; display: none; font-size: 20px; color: #999;">&times;</button>
+            </div>
+            <div id="search-results-count" style="text-align: center; margin-top: 10px; font-size: 14px; color: #666;"></div>
+        </div>
+    </section>
+
+    <!-- DYNAMIC PRODUCT SECTION -->
+    <section id="product1" class="section-p1">
+        <div class="pro-container" id="products-container">
+            <!-- Products will load dynamically from Firestore -->
+            <div class="loading">Loading products...</div>
+        </div>
+    </section>
+
+    <section id="pagination" class="section-p1" id="pagination">
+        <!-- Pagination will be added dynamically -->
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="Clothing Html/Preview-removebg-preview.png" alt="">
+            <h4>Contact</h4>
+            <p><strong>Phone</strong> 0670197323</p>
+            <p><strong>Hours</strong> 10:00 - 17:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow Us</h4>
+                <div class="icon">
+                    <i class="ri-instagram-fill"></i>
+                    <i class="ri-twitter-x-line"></i>
+                    <i class="ri-pinterest-fill"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="About.html">About Us</a>
+            <a href="#">Delivery Information</a>
+            <a href="Contact.html">Contact Us</a>
+        </div>
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="login.html">Sign In</a>
+            <a href="#" id="cart-link">View Cart</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+        <div class="copyright">
+            <p>&#169 Copyright 2026 Urban Threads Ecommerce System</p>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart">
+        <h2 class="cart-title">Your Cart</h2>
+        <div class="cart-content" id="cart-content">
+            <div class="empty-cart">Your cart is empty</div>
+        </div>
+        <div class="total">
+            <div class="total-title">Total</div>
+            <div class="total-price" id="total-price">R0</div>
+        </div>
+        <button type="button" class="btn-buy" id="checkout-btn">Checkout</button>
+        <i class="ri-close-line" id="close-cart"></i>
+    </div>
+
+    <!-- Main Script -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
